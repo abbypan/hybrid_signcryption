@@ -1,23 +1,18 @@
 #!/usr/bin/perl
 
-my @files = qw/plain.10KB.txt plain.10MB.txt plain.100MB.txt plain.300MB.txt/;
+use File::Slurp qw/write_file/;
+
+my @files = qw/plain.10KB.txt plain.100KB.txt plain.1MB.txt plain.10MB.txt plain.100MB.txt plain.500MB.txt/;
 my $n = 1000;
+my $log_file = 'main.csv';
+unlink($log_file);
 
-system(qq[rm -rf data/ff/*]);
+my$head=qq[type,msg_len,enc_elapsed_time_sd,dec_elapsed_time_sd,all_len,iv_len,ciphertext_len,tag_len,sig_len,c2_len,e_len\n];
+write_file($log_file, $head);
 
-my @ff_types = qw/SDSS1 SDSS2/;
-my @ff_groups = qw/ffdhe3072 ffdhe4096/;
-for my $f (@files){
-    for my $t (@ff_types){
-        for my $g (@ff_groups){
             for my $i ( 1 .. $n ){
-            print "$i: $f, $t, $g\n";
-            my $d = "data/ff/$f.$g.$t.$i";
-            mkdir($d);
-            system(qq[perl signcryption_ff.pl $f $t $g |tee $d/$f.$t.$g.log]);
-            system(qq[mv nytprof* $d/]);
-            system(qq[rm $f.*]);
-            }
-        }
+for my $f (@files){
+            print "\r$i: $f";
+            system(qq[./hybrid_sc $f $log_file]);
     }
 }
