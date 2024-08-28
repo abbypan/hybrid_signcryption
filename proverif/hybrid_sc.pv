@@ -1,0 +1,156 @@
+set abbreviateDerivation = true.
+set traceDisplay = long.
+set unifyDerivation = true.
+set verboseClauses = explained.
+set verboseCompleted = true.
+set verboseDestructors = true.
+set verboseEq = true.
+set verboseLemmas = true.
+set verboseRedundant =true.
+set verboseRules = true.
+set verboseStatistics = true.
+set verboseTerm = true.
+set reconstructTrace = true.
+set displayDerivation = true.
+set reconstructDerivation = true.
+(*set maxIsIndepDepth = 20.*)
+(*set maxDepth = 20.*)
+(*set maxHyp = 20.*)
+
+set attacker = active.
+(*set attacker = passive.*)
+
+type key.
+type G.
+type exponent.
+
+free ch:channel.
+free a:exponent [private].
+free b:exponent [private].
+free c:exponent [private].
+free kCTX:key [private].
+free secretMsg: bitstring [private].
+
+const g:G [data].
+const one:exponent [data].
+
+fun eadd(exponent,exponent):exponent.
+equation forall x:exponent,y:exponent;
+eadd(x,y)=eadd(y,x).
+
+fun emul(exponent,exponent):exponent.
+fun ediv(exponent,exponent):exponent.
+equation    
+forall x:exponent,y:exponent;
+    emul(y, ediv(x, y)) = x
+    [convergent].
+
+fun add(G,G):G.
+equation forall x:G,y:G;
+add(x,y)=add(y,x).
+
+fun mul(G,G):G.
+equation forall a:G,b:G;
+    mul(a,b)=mul(b,a).
+
+fun exp(G,exponent):G.
+equation 
+    forall x:exponent,y:exponent;
+exp(exp(g,x),y)=exp(exp(g,y),x).
+
+reduc forall x:exponent,y:exponent;
+    dis_mul(exp(g,x),y)=exp(g,emul(x,y)).           
+reduc forall x:exponent,y:exponent;
+    dis_mul2(exp(g,x),y)=exp(g,emul(y,x)).           
+reduc forall x:exponent,y:exponent;             
+    dis_add(exp(g,x),exp(g,y))=exp(g,eadd(x,y)).    
+
+fun sauthtag(key, bitstring):exponent.
+fun symenc(key, bitstring):bitstring.
+fun symdec(key, bitstring):bitstring.
+equation forall k:key, m:bitstring; symdec(k, symenc(k, m)) = m.
+
+fun getid(G):bitstring.
+fun concat(G, G, bitstring, bitstring, key):bitstring [private].
+fun hash(G):key.
+fun hkdf(key, bitstring):key [private].
+
+(*fun gen_kctx(exponent, G, bitstring):key [private].*)
+(*equation forall x:exponent, y:exponent, s:bitstring;*)
+    (*gen_kctx(x, exp(g, y), s) = gen_kctx(y, exp(g, x), s).*)
+
+(*fun gen_smsg(exponent, G, bitstring):bitstring [private].*)
+
+
+event termA(exponent, G, key).
+event termB(exponent, G, key).
+event ASend(exponent, G, bitstring).
+event BRecv(exponent, G, bitstring).
+event ASendKM(exponent, G, key, bitstring).
+event BRecvKM(exponent, G, key, bitstring).
+event ASendMsg(bitstring).     
+event BRecvMsg(bitstring).     
+
+(*Check secrecy of A*)
+(*query session_id:bitstring; attacker(gen_smsg(a, exp(g, b), session_id)).    *)
+query attacker(secretMsg).    
+
+(*Check whether B successfully decrypt message send by A*)
+(*query session_id:bitstring; event(BRecvMsg(gen_smsg(a, exp(g, b), session_id))). *)
+query event(BRecvMsg(secretMsg)). 
+
+(*Key Compromise Impersonation Query*)
+query xa:exponent, xb:exponent, m:bitstring; event(BRecv(xb,exp(g,xa),m)) ==> event(ASend(xa,exp(g,xb),m)).
+
+
+(*Mutual Authentication Query*)
+query xa:exponent, xb:exponent, k:key, m:bitstring; event(BRecvKM(xb, exp(g, xa), k, m))==>event(ASendKM(xa, exp(g, xb), k, m )). 
+
+(*AKE Query*)
+(*query x:exponent, y:exponent, y':exponent, k:key, k':key, m:bitstring, m':bitstring; *)
+    (*(event(termB(y,exp(g,x), k)) && event(termA(x,exp(g,y), k'))) ==> k = k'.*)
+
+(*UKS Query*)
+(*query x: exponent, y:exponent, y':exponent, k: key, k':key ; *)
+(*(event(termB(y,exp(g, x),k)) && event(termA(x,exp(g, y'),k'))) ==> k = k'.*)
+
+
+let processSend(a:exponent,principalA:G, session_id:bitstring)=
+    let (selfA:G) =exp(g, a) in
+
+    new r:exponent;
+    let(Z:G)=dis_mul2(principalA,r) in
+    let(k:key) = hkdf(hash(Z), concat(selfA, principalA, getid(selfA), getid(principalA), kCTX)) in
+    event termA(a, principalA, k);
+
+    let (ciphertext:bitstring) = symenc(k, secretMsg) in
+    let (tag:exponent) = sauthtag(k, ciphertext) in
+    let(sig:exponent) = ediv(r, eadd(tag, a)) in
+
+    event ASend(a,principalA,secretMsg);
+    event ASendKM(a,principalA,k,secretMsg);
+    out(ch, (ciphertext, tag, sig))
+    .
+
+let processRecv(b:exponent,principalB:G, session_id:bitstring)=
+    let (selfB:G)=exp(g, b) in
+    in(ch,(ciphertext:bitstring, tag:exponent, sig:exponent));
+    let (tPYa:G) = dis_add(exp(g, tag), principalB) in
+    let(Z:G)=dis_mul(dis_mul(tPYa,sig), b) in
+    let(k:key) = hkdf(hash(Z), concat(principalB, selfB, getid(principalB), getid(selfB), kCTX)) in
+    event termB(b, principalB, k);
+
+    let(msg:bitstring)=symdec(k, ciphertext) in
+    if sauthtag(k, ciphertext) = tag then ( 
+    event BRecv(b,principalB,msg);
+    event BRecvKM(b,principalB,k, msg);
+    event BRecvMsg(msg)
+    )
+    .
+
+
+process
+    new session_id:bitstring;
+    (
+        !processSend(a,exp(g,b), session_id) |!processRecv(b,exp(g,a), session_id) 
+    )

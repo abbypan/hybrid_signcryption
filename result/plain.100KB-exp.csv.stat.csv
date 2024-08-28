@@ -1,0 +1,5 @@
+"type","msg_len","avg_all_len","avg_delta_len","avg_enc_time","avg_dec_time"
+"ecies_signature",102400,102552.051,152.051,15.853034,10.87121
+"hpke_auth",102400,102481,81,26.955141,26.171708
+"hybrid_signcryption",102400,102463.997,63.997,5.163495,5.321672
+"imessage",102400,102614.998,214.998,14.406988,12.291351

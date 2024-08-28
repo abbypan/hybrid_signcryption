@@ -4,6 +4,7 @@ use File::Slurp qw/write_file/;
 
 my ( $log_file ) = @ARGV;
 
+my $dir = 'resources';
 my @files = qw/plain.10KB.txt plain.100KB.txt plain.1MB.txt plain.10MB.txt plain.50MB.txt/;
 
 my @nums  = qw/10 50 100 200 500/;
@@ -19,7 +20,7 @@ for my $i ( 1 .. $repeat ) {
   for my $n ( @nums ) {
     for my $f ( @files ) {
       print "\r$i: $n: $f";
-      system( qq[./hybrid_sc_multi $f $log_file $n] );
+      system( qq[./hybrid_sc_multi $dir/$f $log_file $n] );
     }
   }
 }
