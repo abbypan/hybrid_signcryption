@@ -30,6 +30,6 @@ see also: https://github.com/ernestyyy0306/ProVerif-MQV-Based
     ./main_single.pl
     ./main_multi.pl result/multi.csv
 
-   cd result 
-   ./main_stat.pl
+    cd result 
+    ./main_stat.pl
 
