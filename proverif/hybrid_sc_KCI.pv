@@ -100,7 +100,7 @@ query attacker(secretMsg).
 query event(BRecvMsg(secretMsg)). 
 
 (*Key Compromise Impersonation Query*)
-query xa:exponent, xb:exponent, m:bitstring; event(BRecv(b,exp(g,a),m)) ==> event(ASend(a,exp(g,b),m)).
+query xa:exponent, xb:exponent, m:bitstring; event(BRecv(xb,exp(g,xa),m)) ==> event(ASend(xa,exp(g,xb),m)).
 
 
 (*Mutual Authentication Query*)
