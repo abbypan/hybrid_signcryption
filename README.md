@@ -16,6 +16,7 @@ see also: https://github.com/ernestyyy0306/ProVerif-MQV-Based
 
     cd proverif
     proverif -graph trace hybrid_sc.pv
+    proverif -graph trace_KCI hybrid_sc_KCI.pv
 
 ##  test
 
