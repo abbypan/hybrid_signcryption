@@ -31,7 +31,7 @@ free c:exponent [private].
 free kCTX:key [private].
 free secretMsg: bitstring [private].
 
-const g:G [data].
+const P:G [data].
 const one:exponent [data].
 
 fun eadd(exponent,exponent):exponent.
@@ -56,14 +56,14 @@ equation forall a:G,b:G;
 fun exp(G,exponent):G.
 equation 
     forall x:exponent,y:exponent;
-exp(exp(g,x),y)=exp(exp(g,y),x).
+exp(exp(P,x),y)=exp(exp(P,y),x).
 
 reduc forall x:exponent,y:exponent;
-    dis_mul(exp(g,x),y)=exp(g,emul(x,y)).           
+    dis_mul(exp(P,x),y)=exp(P,emul(x,y)).           
 reduc forall x:exponent,y:exponent;
-    dis_mul2(exp(g,x),y)=exp(g,emul(y,x)).           
+    dis_mul2(exp(P,x),y)=exp(P,emul(y,x)).           
 reduc forall x:exponent,y:exponent;             
-    dis_add(exp(g,x),exp(g,y))=exp(g,eadd(x,y)).    
+    dis_add(exp(P,x),exp(P,y))=exp(P,eadd(x,y)).    
 
 fun sauthtag(key, bitstring):exponent.
 fun symenc(key, bitstring):bitstring.
@@ -77,7 +77,7 @@ fun hkdf(key, bitstring):key [private].
 
 (*fun gen_kctx(exponent, G, bitstring):key [private].*)
 (*equation forall x:exponent, y:exponent, s:bitstring;*)
-    (*gen_kctx(x, exp(g, y), s) = gen_kctx(y, exp(g, x), s).*)
+    (*gen_kctx(x, exp(P, y), s) = gen_kctx(y, exp(P, x), s).*)
 
 (*fun gen_smsg(exponent, G, bitstring):bitstring [private].*)
 
@@ -92,31 +92,23 @@ event ASendMsg(bitstring).
 event BRecvMsg(bitstring).     
 
 (*Check secrecy of A*)
-(*query session_id:bitstring; attacker(gen_smsg(a, exp(g, b), session_id)).    *)
+(*query session_id:bitstring; attacker(gen_smsg(a, exp(P, b), session_id)).    *)
 query attacker(secretMsg).    
 
 (*Check whether B successfully decrypt message send by A*)
-(*query session_id:bitstring; event(BRecvMsg(gen_smsg(a, exp(g, b), session_id))). *)
+(*query session_id:bitstring; event(BRecvMsg(gen_smsg(a, exp(P, b), session_id))). *)
 query event(BRecvMsg(secretMsg)). 
 
 (*Key Compromise Impersonation Query*)
-query xa:exponent, xb:exponent, m:bitstring; event(BRecv(xb,exp(g,xa),m)) ==> event(ASend(xa,exp(g,xb),m)).
+query xa:exponent, xb:exponent, m:bitstring; event(BRecv(xb,exp(P,xa),m)) ==> event(ASend(xa,exp(P,xb),m)).
 
 
 (*Mutual Authentication Query*)
-query xa:exponent, xb:exponent, k:key, m:bitstring; event(BRecvKM(xb, exp(g, xa), k, m))==>event(ASendKM(xa, exp(g, xb), k, m )). 
-
-(*AKE Query*)
-(*query x:exponent, y:exponent, y':exponent, k:key, k':key, m:bitstring, m':bitstring; *)
-    (*(event(termB(y,exp(g,x), k)) && event(termA(x,exp(g,y), k'))) ==> k = k'.*)
-
-(*UKS Query*)
-(*query x: exponent, y:exponent, y':exponent, k: key, k':key ; *)
-(*(event(termB(y,exp(g, x),k)) && event(termA(x,exp(g, y'),k'))) ==> k = k'.*)
+query xa:exponent, xb:exponent, k:key, m:bitstring; event(BRecvKM(xb, exp(P, xa), k, m))==>event(ASendKM(xa, exp(P, xb), k, m )). 
 
 
 let processSend(a:exponent,principalA:G)=
-    let (selfA:G) =exp(g, a) in
+    let (selfA:G) =exp(P, a) in
 
     new r:exponent;
     let(Z:G)=dis_mul2(principalA,r) in
@@ -133,9 +125,9 @@ let processSend(a:exponent,principalA:G)=
     .
 
 let processRecv(b:exponent,principalB:G)=
-    let (selfB:G)=exp(g, b) in
+    let (selfB:G)=exp(P, b) in
     in(ch,(ciphertext:bitstring, tag:exponent, sig:exponent));
-    let (tPYa:G) = dis_add(exp(g, tag), principalB) in
+    let (tPYa:G) = dis_add(exp(P, tag), principalB) in
     let(Z:G)=dis_mul(dis_mul(tPYa,sig), b) in
     let(k:key) = hkdf(hash(Z), concat(principalB, selfB, getid(principalB), getid(selfB), kCTX)) in
     event termB(b, principalB, k);
@@ -150,7 +142,7 @@ let processRecv(b:exponent,principalB:G)=
 
 
 process
-    out(ch, (b, kCTX, exp(g, a), exp(g, b)));
+    out(ch, (b, kCTX, exp(P, a), exp(P, b)));
     (
-        !processSend(a,exp(g,b)) |!processRecv(b,exp(g,a)) 
+        !processSend(a,exp(P,b)) |!processRecv(b,exp(P,a)) 
     )
