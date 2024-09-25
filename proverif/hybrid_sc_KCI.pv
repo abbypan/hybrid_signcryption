@@ -59,13 +59,13 @@ equation
 exp(exp(P,x),y)=exp(exp(P,y),x).
 
 reduc forall x:exponent,y:exponent;
-    dis_mul(exp(P,x),y)=exp(P,emul(x,y)).           
+    dis_exp(exp(P,x),y)=exp(P,emul(x,y)).           
 reduc forall x:exponent,y:exponent;
-    dis_mul2(exp(P,x),y)=exp(P,emul(y,x)).           
+    dis_exp2(exp(P,x),y)=exp(P,emul(y,x)).           
 reduc forall x:exponent,y:exponent;             
     dis_add(exp(P,x),exp(P,y))=exp(P,eadd(x,y)).    
 
-fun sauthtag(key, bitstring):exponent.
+fun symtag(key, bitstring):exponent.
 fun symenc(key, bitstring):bitstring.
 fun symdec(key, bitstring):bitstring.
 equation forall k:key, m:bitstring; symdec(k, symenc(k, m)) = m.
@@ -111,12 +111,12 @@ let processSend(a:exponent,principalA:G)=
     let (selfA:G) =exp(P, a) in
 
     new r:exponent;
-    let(Z:G)=dis_mul2(principalA,r) in
+    let(Z:G)=dis_exp2(principalA,r) in
     let(k:key) = hkdf(hash(Z), concat(selfA, principalA, getid(selfA), getid(principalA), kCTX)) in
     event termA(a, principalA, k);
 
     let (ciphertext:bitstring) = symenc(k, secretMsg) in
-    let (tag:exponent) = sauthtag(k, ciphertext) in
+    let (tag:exponent) = symtag(k, ciphertext) in
     let(sig:exponent) = ediv(r, eadd(tag, a)) in
 
     event ASend(a,principalA,secretMsg);
@@ -128,12 +128,12 @@ let processRecv(b:exponent,principalB:G)=
     let (selfB:G)=exp(P, b) in
     in(ch,(ciphertext:bitstring, tag:exponent, sig:exponent));
     let (tPYa:G) = dis_add(exp(P, tag), principalB) in
-    let(Z:G)=dis_mul(dis_mul(tPYa,sig), b) in
+    let(Z:G)=dis_exp(dis_exp(tPYa,sig), b) in
     let(k:key) = hkdf(hash(Z), concat(principalB, selfB, getid(principalB), getid(selfB), kCTX)) in
     event termB(b, principalB, k);
 
     let(msg:bitstring)=symdec(k, ciphertext) in
-    if sauthtag(k, ciphertext) = tag then ( 
+    if symtag(k, ciphertext) = tag then ( 
     event BRecv(b,principalB,msg);
     event BRecvKM(b,principalB,k, msg);
     event BRecvMsg(msg)

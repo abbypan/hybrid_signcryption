@@ -31,16 +31,16 @@ a)),getid(exp(P,b)),kCTX)))</TD></TR><TR><TD><FONT COLOR="darkgreen">{12}</FONT>
 r_2,b))),concat(exp(P,a),exp(P,b),getid(exp(P,<br/>
 a)),getid(exp(P,b)),kCTX)),secretMsg)</TD></TR><TR><TD><FONT COLOR="darkgreen">{9}</FONT><FONT COLOR="blue">let</FONT> ciphertext: bitstring = symenc(hkdf(hash(<br/>
 exp(P,emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(<br/>
-exp(P,a)),getid(exp(P,b)),kCTX)),secretMsg)</TD></TR><TR><TD><FONT COLOR="darkgreen">{10}</FONT><FONT COLOR="blue">let</FONT> tag: exponent = sauthtag(hkdf(hash(exp(<br/>
-P,emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(<br/>
-exp(P,a)),getid(exp(P,b)),kCTX)),symenc(hkdf(hash(<br/>
+exp(P,a)),getid(exp(P,b)),kCTX)),secretMsg)</TD></TR><TR><TD><FONT COLOR="darkgreen">{10}</FONT><FONT COLOR="blue">let</FONT> tag: exponent = symtag(hkdf(hash(exp(P,<br/>
+emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(exp(<br/>
+P,a)),getid(exp(P,b)),kCTX)),symenc(hkdf(hash(<br/>
 exp(P,emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(<br/>
-exp(P,a)),getid(exp(P,b)),kCTX)),secretMsg))</TD></TR><TR><TD><FONT COLOR="darkgreen">{11}</FONT><FONT COLOR="blue">let</FONT> sig: exponent = ediv(r_2,eadd(sauthtag(<br/>
+exp(P,a)),getid(exp(P,b)),kCTX)),secretMsg))</TD></TR><TR><TD><FONT COLOR="darkgreen">{11}</FONT><FONT COLOR="blue">let</FONT> sig: exponent = ediv(r_2,eadd(symtag(hkdf(<br/>
+hash(exp(P,emul(r_2,b))),concat(exp(P,a),exp(P,<br/>
+b),getid(exp(P,a)),getid(exp(P,b)),kCTX)),symenc(<br/>
 hkdf(hash(exp(P,emul(r_2,b))),concat(exp(P,a),<br/>
 exp(P,b),getid(exp(P,a)),getid(exp(P,b)),kCTX)),<br/>
-symenc(hkdf(hash(exp(P,emul(r_2,b))),concat(exp(<br/>
-P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,b)),<br/>
-kCTX)),secretMsg)),a))</TD></TR></TABLE>>]
+secretMsg)),a))</TD></TR></TABLE>>]
 P0_1_0__2 -> P0_1_0__3 [label = <>, weight = 100]
 P0_1_0__3 -> P0_1_0__4 [label = <>, weight = 100]
 P0_0_0__3 -> P0_0_0__4 [label = <>, weight = 100]
@@ -67,127 +67,126 @@ P0_0_0__7 -> P0_0_0__8 [label = <>, weight = 100]
 P__5 -> P__6 [label = <>, weight = 100]
 {rank = same; P__6 P0_0_0__8}
 P0_0_0__8 -> P0_0_0__9 [label = <>, weight = 100]
-P0_0_0__9 [shape = plaintext, label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> <TR><TD><FONT COLOR="darkgreen">{17}</FONT><FONT COLOR="blue">let</FONT> principalB: G = exp(P,a)</TD></TR><TR><TD><FONT COLOR="darkgreen">{20}</FONT><FONT COLOR="blue">let</FONT> tPYa: G = exp(P,eadd(sauthtag(hkdf(hash(<br/>
+P0_0_0__9 [shape = plaintext, label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> <TR><TD><FONT COLOR="darkgreen">{17}</FONT><FONT COLOR="blue">let</FONT> principalB: G = exp(P,a)</TD></TR><TR><TD><FONT COLOR="darkgreen">{20}</FONT><FONT COLOR="blue">let</FONT> tPYa: G = exp(P,eadd(symtag(hkdf(hash(<br/>
 exp(P,emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(<br/>
 exp(P,a)),getid(exp(P,b)),kCTX)),symenc(hkdf(hash(<br/>
 exp(P,emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(<br/>
 exp(P,a)),getid(exp(P,b)),kCTX)),secretMsg)),a))<br/>
-</TD></TR><TR><TD><FONT COLOR="darkgreen">{16}</FONT><FONT COLOR="blue">let</FONT> b_1: exponent = b</TD></TR><TR><TD><FONT COLOR="darkgreen">{21}</FONT><FONT COLOR="blue">let</FONT> Z_1: G = exp(P,emul(emul(eadd(sauthtag(<br/>
-hkdf(hash(exp(P,emul(r_2,b))),concat(exp(P,a),<br/>
-exp(P,b),getid(exp(P,a)),getid(exp(P,b)),kCTX)),<br/>
-symenc(hkdf(hash(exp(P,emul(r_2,b))),concat(exp(<br/>
-P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,b)),<br/>
-kCTX)),secretMsg)),a),ediv(r_2,eadd(sauthtag(hkdf(<br/>
+</TD></TR><TR><TD><FONT COLOR="darkgreen">{16}</FONT><FONT COLOR="blue">let</FONT> b_1: exponent = b</TD></TR><TR><TD><FONT COLOR="darkgreen">{21}</FONT><FONT COLOR="blue">let</FONT> Z_1: G = exp(P,emul(emul(eadd(symtag(hkdf(<br/>
 hash(exp(P,emul(r_2,b))),concat(exp(P,a),exp(P,<br/>
 b),getid(exp(P,a)),getid(exp(P,b)),kCTX)),symenc(<br/>
 hkdf(hash(exp(P,emul(r_2,b))),concat(exp(P,a),<br/>
 exp(P,b),getid(exp(P,a)),getid(exp(P,b)),kCTX)),<br/>
-secretMsg)),a))),b))</TD></TR><TR><TD><FONT COLOR="darkgreen">{18}</FONT><FONT COLOR="blue">let</FONT> selfB: G = exp(P,b)</TD></TR><TR><TD><FONT COLOR="darkgreen">{22}</FONT><FONT COLOR="blue">let</FONT> k_1: key = hkdf(hash(exp(P,emul(emul(eadd(<br/>
-sauthtag(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
-exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
-b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),<br/>
-concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
-exp(P,b)),kCTX)),secretMsg)),a),ediv(r_2,eadd(<br/>
-sauthtag(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
-exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
-b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),<br/>
-concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
-exp(P,b)),kCTX)),secretMsg)),a))),b))),concat(<br/>
-exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
-b)),kCTX))</TD></TR><TR><TD><FONT COLOR="darkgreen">{23}</FONT><FONT COLOR="blue">event</FONT> termB(b,exp(P,a),hkdf(hash(exp(P,emul(<br/>
-emul(eadd(sauthtag(hkdf(hash(exp(P,emul(r_2,b))),<br/>
-concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
-exp(P,b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,<br/>
-b))),concat(exp(P,a),exp(P,b),getid(exp(P,a)),<br/>
-getid(exp(P,b)),kCTX)),secretMsg)),a),ediv(r_2,<br/>
-eadd(sauthtag(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
-exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
-b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),<br/>
-concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
-exp(P,b)),kCTX)),secretMsg)),a))),b))),concat(<br/>
-exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
-b)),kCTX)))</TD></TR><TR><TD><FONT COLOR="darkgreen">{25}</FONT><FONT COLOR="blue">if</FONT> (sauthtag(hkdf(hash(exp(P,emul(emul(eadd(<br/>
-sauthtag(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
-exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
-b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),<br/>
-concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
-exp(P,b)),kCTX)),secretMsg)),a),ediv(r_2,eadd(<br/>
-sauthtag(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
-exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
-b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),<br/>
-concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
-exp(P,b)),kCTX)),secretMsg)),a))),b))),concat(<br/>
-exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
-b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),<br/>
-concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
-exp(P,b)),kCTX)),secretMsg)) = sauthtag(hkdf(hash(<br/>
+secretMsg)),a),ediv(r_2,eadd(symtag(hkdf(hash(<br/>
 exp(P,emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(<br/>
 exp(P,a)),getid(exp(P,b)),kCTX)),symenc(hkdf(hash(<br/>
 exp(P,emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(<br/>
-exp(P,a)),getid(exp(P,b)),kCTX)),secretMsg)))</TD></TR><TR><TD><FONT COLOR="darkgreen">{24}</FONT><FONT COLOR="blue">let</FONT> msg: bitstring = symdec(hkdf(hash(exp(<br/>
-P,emul(emul(eadd(sauthtag(hkdf(hash(exp(P,emul(<br/>
-r_2,b))),concat(exp(P,a),exp(P,b),getid(exp(P,<br/>
-a)),getid(exp(P,b)),kCTX)),symenc(hkdf(hash(exp(<br/>
-P,emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(<br/>
-exp(P,a)),getid(exp(P,b)),kCTX)),secretMsg)),a),<br/>
-ediv(r_2,eadd(sauthtag(hkdf(hash(exp(P,emul(r_2,<br/>
-b))),concat(exp(P,a),exp(P,b),getid(exp(P,a)),<br/>
-getid(exp(P,b)),kCTX)),symenc(hkdf(hash(exp(P,<br/>
-emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(exp(<br/>
-P,a)),getid(exp(P,b)),kCTX)),secretMsg)),a))),<br/>
-b))),concat(exp(P,a),exp(P,b),getid(exp(P,a)),<br/>
-getid(exp(P,b)),kCTX)),symenc(hkdf(hash(exp(P,<br/>
-emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(exp(<br/>
-P,a)),getid(exp(P,b)),kCTX)),secretMsg))</TD></TR><TR><TD><FONT COLOR="darkgreen">{26}</FONT><FONT COLOR="blue">event</FONT> BRecv(b,exp(P,a),symdec(hkdf(hash(exp(<br/>
-P,emul(emul(eadd(sauthtag(hkdf(hash(exp(P,emul(<br/>
-r_2,b))),concat(exp(P,a),exp(P,b),getid(exp(P,<br/>
-a)),getid(exp(P,b)),kCTX)),symenc(hkdf(hash(exp(<br/>
-P,emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(<br/>
-exp(P,a)),getid(exp(P,b)),kCTX)),secretMsg)),a),<br/>
-ediv(r_2,eadd(sauthtag(hkdf(hash(exp(P,emul(r_2,<br/>
-b))),concat(exp(P,a),exp(P,b),getid(exp(P,a)),<br/>
-getid(exp(P,b)),kCTX)),symenc(hkdf(hash(exp(P,<br/>
-emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(exp(<br/>
-P,a)),getid(exp(P,b)),kCTX)),secretMsg)),a))),<br/>
-b))),concat(exp(P,a),exp(P,b),getid(exp(P,a)),<br/>
-getid(exp(P,b)),kCTX)),symenc(hkdf(hash(exp(P,<br/>
-emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(exp(<br/>
-P,a)),getid(exp(P,b)),kCTX)),secretMsg)))</TD></TR><TR><TD><FONT COLOR="darkgreen">{27}</FONT><FONT COLOR="blue">event</FONT> BRecvKM(b,exp(P,a),hkdf(hash(exp(P,emul(<br/>
-emul(eadd(sauthtag(hkdf(hash(exp(P,emul(r_2,b))),<br/>
+exp(P,a)),getid(exp(P,b)),kCTX)),secretMsg)),a))),<br/>
+b))</TD></TR><TR><TD><FONT COLOR="darkgreen">{18}</FONT><FONT COLOR="blue">let</FONT> selfB: G = exp(P,b)</TD></TR><TR><TD><FONT COLOR="darkgreen">{22}</FONT><FONT COLOR="blue">let</FONT> k_1: key = hkdf(hash(exp(P,emul(emul(eadd(<br/>
+symtag(hkdf(hash(exp(P,emul(r_2,b))),concat(exp(<br/>
+P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,b)),<br/>
+kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
+exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
+b)),kCTX)),secretMsg)),a),ediv(r_2,eadd(symtag(<br/>
+hkdf(hash(exp(P,emul(r_2,b))),concat(exp(P,a),<br/>
+exp(P,b),getid(exp(P,a)),getid(exp(P,b)),kCTX)),<br/>
+symenc(hkdf(hash(exp(P,emul(r_2,b))),concat(exp(<br/>
+P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,b)),<br/>
+kCTX)),secretMsg)),a))),b))),concat(exp(P,a),exp(<br/>
+P,b),getid(exp(P,a)),getid(exp(P,b)),kCTX))</TD></TR><TR><TD><FONT COLOR="darkgreen">{23}</FONT><FONT COLOR="blue">event</FONT> termB(b,exp(P,a),hkdf(hash(exp(P,emul(<br/>
+emul(eadd(symtag(hkdf(hash(exp(P,emul(r_2,b))),<br/>
 concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
 exp(P,b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,<br/>
 b))),concat(exp(P,a),exp(P,b),getid(exp(P,a)),<br/>
 getid(exp(P,b)),kCTX)),secretMsg)),a),ediv(r_2,<br/>
-eadd(sauthtag(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
+eadd(symtag(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
+exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
+b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),<br/>
+concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
+exp(P,b)),kCTX)),secretMsg)),a))),b))),concat(<br/>
+exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
+b)),kCTX)))</TD></TR><TR><TD><FONT COLOR="darkgreen">{25}</FONT><FONT COLOR="blue">if</FONT> (symtag(hkdf(hash(exp(P,emul(emul(eadd(<br/>
+symtag(hkdf(hash(exp(P,emul(r_2,b))),concat(exp(<br/>
+P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,b)),<br/>
+kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
+exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
+b)),kCTX)),secretMsg)),a),ediv(r_2,eadd(symtag(<br/>
+hkdf(hash(exp(P,emul(r_2,b))),concat(exp(P,a),<br/>
+exp(P,b),getid(exp(P,a)),getid(exp(P,b)),kCTX)),<br/>
+symenc(hkdf(hash(exp(P,emul(r_2,b))),concat(exp(<br/>
+P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,b)),<br/>
+kCTX)),secretMsg)),a))),b))),concat(exp(P,a),exp(<br/>
+P,b),getid(exp(P,a)),getid(exp(P,b)),kCTX)),symenc(<br/>
+hkdf(hash(exp(P,emul(r_2,b))),concat(exp(P,a),<br/>
+exp(P,b),getid(exp(P,a)),getid(exp(P,b)),kCTX)),<br/>
+secretMsg)) = symtag(hkdf(hash(exp(P,emul(r_2,<br/>
+b))),concat(exp(P,a),exp(P,b),getid(exp(P,a)),<br/>
+getid(exp(P,b)),kCTX)),symenc(hkdf(hash(exp(P,<br/>
+emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(exp(<br/>
+P,a)),getid(exp(P,b)),kCTX)),secretMsg)))</TD></TR><TR><TD><FONT COLOR="darkgreen">{24}</FONT><FONT COLOR="blue">let</FONT> msg: bitstring = symdec(hkdf(hash(exp(<br/>
+P,emul(emul(eadd(symtag(hkdf(hash(exp(P,emul(r_2,<br/>
+b))),concat(exp(P,a),exp(P,b),getid(exp(P,a)),<br/>
+getid(exp(P,b)),kCTX)),symenc(hkdf(hash(exp(P,<br/>
+emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(exp(<br/>
+P,a)),getid(exp(P,b)),kCTX)),secretMsg)),a),ediv(<br/>
+r_2,eadd(symtag(hkdf(hash(exp(P,emul(r_2,b))),<br/>
+concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
+exp(P,b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,<br/>
+b))),concat(exp(P,a),exp(P,b),getid(exp(P,a)),<br/>
+getid(exp(P,b)),kCTX)),secretMsg)),a))),b))),concat(<br/>
+exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
+b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),<br/>
+concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
+exp(P,b)),kCTX)),secretMsg))</TD></TR><TR><TD><FONT COLOR="darkgreen">{26}</FONT><FONT COLOR="blue">event</FONT> BRecv(b,exp(P,a),symdec(hkdf(hash(exp(<br/>
+P,emul(emul(eadd(symtag(hkdf(hash(exp(P,emul(r_2,<br/>
+b))),concat(exp(P,a),exp(P,b),getid(exp(P,a)),<br/>
+getid(exp(P,b)),kCTX)),symenc(hkdf(hash(exp(P,<br/>
+emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(exp(<br/>
+P,a)),getid(exp(P,b)),kCTX)),secretMsg)),a),ediv(<br/>
+r_2,eadd(symtag(hkdf(hash(exp(P,emul(r_2,b))),<br/>
+concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
+exp(P,b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,<br/>
+b))),concat(exp(P,a),exp(P,b),getid(exp(P,a)),<br/>
+getid(exp(P,b)),kCTX)),secretMsg)),a))),b))),concat(<br/>
+exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
+b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),<br/>
+concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
+exp(P,b)),kCTX)),secretMsg)))</TD></TR><TR><TD><FONT COLOR="darkgreen">{27}</FONT><FONT COLOR="blue">event</FONT> BRecvKM(b,exp(P,a),hkdf(hash(exp(P,emul(<br/>
+emul(eadd(symtag(hkdf(hash(exp(P,emul(r_2,b))),<br/>
+concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
+exp(P,b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,<br/>
+b))),concat(exp(P,a),exp(P,b),getid(exp(P,a)),<br/>
+getid(exp(P,b)),kCTX)),secretMsg)),a),ediv(r_2,<br/>
+eadd(symtag(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
 exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
 b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),<br/>
 concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
 exp(P,b)),kCTX)),secretMsg)),a))),b))),concat(<br/>
 exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
 b)),kCTX)),symdec(hkdf(hash(exp(P,emul(emul(eadd(<br/>
-sauthtag(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
+symtag(hkdf(hash(exp(P,emul(r_2,b))),concat(exp(<br/>
+P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,b)),<br/>
+kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
 exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
-b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),<br/>
-concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
-exp(P,b)),kCTX)),secretMsg)),a),ediv(r_2,eadd(<br/>
-sauthtag(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
-exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
-b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),<br/>
-concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
-exp(P,b)),kCTX)),secretMsg)),a))),b))),concat(<br/>
-exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
-b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),<br/>
-concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
-exp(P,b)),kCTX)),secretMsg)))</TD></TR></TABLE>>]
+b)),kCTX)),secretMsg)),a),ediv(r_2,eadd(symtag(<br/>
+hkdf(hash(exp(P,emul(r_2,b))),concat(exp(P,a),<br/>
+exp(P,b),getid(exp(P,a)),getid(exp(P,b)),kCTX)),<br/>
+symenc(hkdf(hash(exp(P,emul(r_2,b))),concat(exp(<br/>
+P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,b)),<br/>
+kCTX)),secretMsg)),a))),b))),concat(exp(P,a),exp(<br/>
+P,b),getid(exp(P,a)),getid(exp(P,b)),kCTX)),symenc(<br/>
+hkdf(hash(exp(P,emul(r_2,b))),concat(exp(P,a),<br/>
+exp(P,b),getid(exp(P,a)),getid(exp(P,b)),kCTX)),<br/>
+secretMsg)))</TD></TR></TABLE>>]
 P0_0_0__9 -> P0_0_0__10 [label = <>, weight = 100]
 P0_0_0__10 -> P0_0_0__11 [label = <>, weight = 100]
 P0_0_0__11 [color = red, shape = plaintext, label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> <TR><TD><FONT COLOR="darkgreen">{28}</FONT><FONT COLOR="blue">event</FONT> BRecvMsg(symdec(hkdf(hash(exp(P,emul(<br/>
-emul(eadd(sauthtag(hkdf(hash(exp(P,emul(r_2,b))),<br/>
+emul(eadd(symtag(hkdf(hash(exp(P,emul(r_2,b))),<br/>
 concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
 exp(P,b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,<br/>
 b))),concat(exp(P,a),exp(P,b),getid(exp(P,a)),<br/>
 getid(exp(P,b)),kCTX)),secretMsg)),a),ediv(r_2,<br/>
-eadd(sauthtag(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
+eadd(symtag(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
 exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
 b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),<br/>
 concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
@@ -199,11 +198,11 @@ exp(P,b)),kCTX)),secretMsg)))</TD></TR></TABLE>>]
 P0_0_0__11 -> P0_0_0__12 [label = <>, weight = 100]
 Abbrev [shape = plaintext, label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR> <TD> Abbreviations </TD></TR><TR><TD>~M = symenc(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
 exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
-b)),kCTX)),secretMsg)</TD></TR><TR><TD>~M_1 = sauthtag(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
+b)),kCTX)),secretMsg)</TD></TR><TR><TD>~M_1 = symtag(hkdf(hash(exp(P,emul(r_2,b))),concat(<br/>
 exp(P,a),exp(P,b),getid(exp(P,a)),getid(exp(P,<br/>
 b)),kCTX)),symenc(hkdf(hash(exp(P,emul(r_2,b))),<br/>
 concat(exp(P,a),exp(P,b),getid(exp(P,a)),getid(<br/>
-exp(P,b)),kCTX)),secretMsg))</TD></TR><TR><TD>~M_2 = ediv(r_2,eadd(sauthtag(hkdf(hash(exp(P,emul(<br/>
+exp(P,b)),kCTX)),secretMsg))</TD></TR><TR><TD>~M_2 = ediv(r_2,eadd(symtag(hkdf(hash(exp(P,emul(<br/>
 r_2,b))),concat(exp(P,a),exp(P,b),getid(exp(P,<br/>
 a)),getid(exp(P,b)),kCTX)),symenc(hkdf(hash(exp(<br/>
 P,emul(r_2,b))),concat(exp(P,a),exp(P,b),getid(<br/>
